@@ -1,0 +1,52 @@
+{
+  "name": "alt-text-generator",
+  "displayName": "Alt Text Generator",
+  "description": "Generate alt text for image tags with a click or right-click",
+  "version": "0.0.1",
+  "engines": {
+    "vscode": "^1.74.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "*"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "altTextGenerator.generateAltText",
+        "title": "Generate Alt Text"
+      }
+    ],
+    "menus": {
+      "editor/context": [
+        {
+          "command": "altTextGenerator.generateAltText",
+          "when": "editorTextFocus",
+          "group": "navigation"
+        }
+      ],
+      "editor/title": [
+        {
+          "command": "altTextGenerator.generateAltText",
+          "when": "editorTextFocus",
+          "group": "navigation"
+        }
+      ]
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "package": "vsce package"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.74.0",
+    "@types/node": "16.x",
+    "typescript": "^4.9.4",
+    "@vscode/vsce": "^2.22.0"
+  }
+}
