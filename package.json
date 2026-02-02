@@ -1,25 +1,97 @@
 {
-  "name": "alt-text-generator",
-  "displayName": "Alt Text Generator",
-  "description": "Generate alt text for image tags with a click or right-click",
-  "version": "0.0.1",
+  "name": "alt-text-generator-ai",
+  "displayName": "Alt Text Generator AI",
+  "description": "Generate alt text for images using AI.",
+  "version": "0.0.2",
+  "publisher": "AltTextGeneratorAI",
   "engines": {
-    "vscode": "^1.74.0"
+    "vscode": "^1.75.0"
   },
   "categories": [
     "Other"
   ],
-  "activationEvents": [
-    "*"
+  "keywords": [
+    "alt-text",
+    "accessibility",
+    "seo",
+    "image",
+    "ai",
+    "alt",
+    "alt-text-generator",
+    "accessibility-tools"
   ],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/balt1794/alt-text-generator-visual-studio"
+  },
+  "homepage": "https://alttextgeneratorai.com",
+  "bugs": {
+    "url": "https://github.com/balt1794/alt-text-generator-visual-studio"
+  },
+  "icon": "icon.png",
   "main": "./out/extension.js",
   "contributes": {
     "commands": [
       {
         "command": "altTextGenerator.generateAltText",
-        "title": "Generate Alt Text"
+        "title": "Generate Alt-Text"
+      },
+      {
+        "command": "altTextGenerator.generateAltTextFromFile",
+        "title": "Generate Alt Text",
+        "icon": "$(file-media)"
+      },
+      {
+        "command": "altTextGenerator.setApiKey",
+        "title": "Alt Text Generator: Set API Key"
+      },
+      {
+        "command": "altTextGenerator.viewApiKey",
+        "title": "Alt Text Generator: View API Key Status"
       }
     ],
+    "configuration": {
+      "title": "Alt Text Generator",
+      "properties": {
+        "altTextGenerator.apiKey": {
+          "type": "string",
+          "default": "",
+          "description": "Your API key for alttextgeneratorai.com",
+          "scope": "application"
+        },
+        "altTextGenerator.language": {
+          "type": "string",
+          "default": "english",
+          "description": "Language for generated alt text (e.g., english, spanish, french)",
+          "scope": "application"
+        },
+        "altTextGenerator.maxImageWidth": {
+          "type": "number",
+          "default": 800,
+          "description": "Maximum width for images before resizing (in pixels). Larger images will be resized to reduce payload size.",
+          "scope": "application"
+        },
+        "altTextGenerator.maxImageHeight": {
+          "type": "number",
+          "default": 800,
+          "description": "Maximum height for images before resizing (in pixels). Larger images will be resized to reduce payload size.",
+          "scope": "application"
+        },
+        "altTextGenerator.maxFileSizeKB": {
+          "type": "number",
+          "default": 300,
+          "description": "Maximum file size in KB before resizing. Images larger than this will be automatically resized.",
+          "scope": "application"
+        },
+        "altTextGenerator.jpegQuality": {
+          "type": "number",
+          "default": 75,
+          "description": "JPEG quality for resized images (1-100). Lower values = smaller file size but lower quality.",
+          "scope": "application"
+        }
+      }
+    },
     "menus": {
       "editor/context": [
         {
@@ -34,6 +106,13 @@
           "when": "editorTextFocus",
           "group": "navigation"
         }
+      ],
+      "explorer/context": [
+        {
+          "command": "altTextGenerator.generateAltTextFromFile",
+          "when": "resourceExtname =~ /\\.(jpg|jpeg|png|gif|webp|svg|bmp|ico)$/i",
+          "group": "navigation"
+        }
       ]
     }
   },
@@ -43,10 +122,13 @@
     "watch": "tsc -watch -p ./",
     "package": "vsce package"
   },
+  "dependencies": {
+    "sharp": "^0.33.5"
+  },
   "devDependencies": {
-    "@types/vscode": "^1.74.0",
     "@types/node": "16.x",
-    "typescript": "^4.9.4",
-    "@vscode/vsce": "^2.22.0"
+    "@types/vscode": "^1.74.0",
+    "@vscode/vsce": "^2.22.0",
+    "typescript": "^4.9.4"
   }
 }
